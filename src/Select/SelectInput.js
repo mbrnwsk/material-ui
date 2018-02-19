@@ -154,6 +154,7 @@ class SelectInput extends React.Component {
       open: openProp,
       readOnly,
       renderValue,
+      tabIndex,
       value,
       ...other
     } = this.props;
@@ -260,6 +261,11 @@ class SelectInput extends React.Component {
 
     const MenuMinWidth = this.displayNode && !autoWidth ? this.displayNode.clientWidth : undefined;
 
+    let tabIndexFinal = tabIndex || 0
+    if (disabled) {
+      tabIndexFinal = null
+    }
+
     return (
       <div className={classes.root}>
         <div
@@ -276,7 +282,7 @@ class SelectInput extends React.Component {
           }}
           data-mui-test="SelectDisplay"
           aria-pressed={open ? 'true' : 'false'}
-          tabIndex={disabled ? null : 0}
+          tabIndex={tabIndexFinal}
           role="button"
           aria-owns={open ? `menu-${name || ''}` : null}
           aria-haspopup="true"
@@ -413,6 +419,10 @@ SelectInput.propTypes = {
    * You can only use it when the `native` property is `false` (default).
    */
   renderValue: PropTypes.func,
+  /**
+   * Tab index of the component
+   */
+  tabIndex: PropTypes.number,
   /**
    * The value of the component, required for a controlled component.
    */
